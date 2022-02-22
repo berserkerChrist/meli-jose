@@ -1,1 +1,199 @@
-<p>shipment works!</p>
+<!-- parent block -->
+<section class="h-100 position-relative">
+  <!-- child container organizer -->
+  <div fxFlex fxLayout="column" class="container" fxLayoutGap="20px">
+    <!-- top row -->
+    <div fxLayout="column" fxLayoutAlign.lt-md="space-between center" fxLayoutGap="15px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="flex-start center">
+      <mat-card class="w-100">
+        <div>
+          <h2 class="m-0 font-weight-light text-dark">Consulta por embarque</h2>
+        </div>
+        <mat-divider inset></mat-divider>
+          <form #shipmentInput="ngForm" fxLayout="column" fxLayoutAlign="flex-start center" fxLayout.gt-sm="row wrap" fxLayoutAlign.gt-sm="center" fxLayoutGap="10px" class="mt-4 w-100 h-50"
+            (ngSubmit)="shipmentInput.valid? onSubmit(shipmentInput) : false;"><!-- shipmentInput.valid? _requestshipmentData() : false; -->
+            <mat-form-field  appearance="outline" [hideRequiredMarker]="true">
+              <mat-label>No. de embarque</mat-label>
+              <input matInput type="text" ngModel name="shipmentID" #shipmentInputString="ngModel" required minlength="11" maxlength="11" >
+              <span matSuffix class="text-muted">{{ _lenght(shipmentInputString.value) }} / 11</span>
+              <mat-error *ngIf="!shipmentInputString.hasError('required')">El ID es menor a 11 caracteres</mat-error>
+              <mat-error *ngIf="shipmentInputString.hasError('required')">Ingresa un ID válido</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Tipo de servicio</mat-label>
+              <mat-select [(value)]="selected" required name="selectedValue" #selectValue="ngModel" ngModel>
+                <mat-option *ngFor="let option of options" [value]="option.value">
+                  {{option.name}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="selectValue.hasError('required')">Elige una opción</mat-error>
+            </mat-form-field>
+            <mat-form-field  appearance="outline" [hideRequiredMarker]="true">
+              <mat-label>Clave de origen</mat-label>
+              <input matInput type="text" ngModel name="originID" #originInputString="ngModel" [required]="selectValue.value=='middle_mile'? true : false " minlength="6"
+                maxlength="6">
+              <span matSuffix class="text-muted">{{ _lenght(originInputString.value) }} / 6</span>
+              <mat-error *ngIf="!originInputString.hasError('required')">El ID es menor a 6 caracteres</mat-error>
+              <mat-error *ngIf="originInputString.hasError('required')">Ingresa un ID válido</mat-error>
+            </mat-form-field>
+            <button type="submit" mat-stroked-button class="form-btn text-dark">Buscar</button>
+          </form>
+      </mat-card>
+    </div>
+    <!-- bottom row -->
+    <p *ngIf="!shipmentData" class="text-center text-muted">La información del embarque aparecera aquí abajo al consultarla</p>
+    <div *ngIf="shipmentData" fxFlex="auto auto auto" fxLayout="column" fxLayoutGap="10px">
+      <!-- space optimizer -->
+      <div fxFlex="auto auto auto" fxLayout="column" fxLayoutGap="10px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start" >
+        <mat-card class="w-100 h-100">
+          <div>
+            <h2 class="m-0 font-weight-light text-dark">Origen</h2>
+          </div>
+          <mat-divider inset></mat-divider>
+          <h3 class="text-dark pl-3 pt-3 pb-1 m-0 lead font-weight-bold">Datos fiscales de origen</h3>
+          <div class="container" fxLayout="column" fxLayoutGap="15px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start">
+            <div fxLayout="column" class="text-wrap">
+              <p class="m-0">RFC</p>
+              <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
+                {{shipmentData.origin.fiscal_information.rfc? shipmentData.origin.fiscal_information.rfc: 'N/A' }}
+              </p>
+            </div>
+            <div fxLayout="column" class="text-wrap">
+              <p class="m-0">Nombre</p>
+              <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
+                {{shipmentData.origin.fiscal_information.full_name? shipmentData.origin.fiscal_information.full_name : "N/A"}}
+              </p>
+            </div>
+            <div fxLayout="column" class="text-wrap">
+              <p class="m-0">Clave del país</p>
+              <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
+                {{shipmentData.origin.fiscal_information.fiscal_residence? shipmentData.origin.fiscal_information.fiscal_residence : "N/A"}}
+              </p>
+            </div>
+          </div>
+          <h3 class="text-dark pl-3 pt-3 pb-1 m-0 lead font-weight-bold">Domicilio de origen</h3>
+          <div class="container" fxLayout="column" fxLayoutGap="15px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start">
+            <div fxLayout="column" class="text-wrap">
+              <p class="m-0">Domicilio completo</p>
+              <p class="p-0 pl-1 font-weight-light m-0 text-muted border-selector">{{shipmentData.origin.address.address_line}},
+                Col. {{shipmentData.origin.address.neighborhood.name}},
+                {{shipmentData.origin.address.city.name}},
+                {{shipmentData.origin.address.state.name}},
+                {{shipmentData.origin.address.country.name}}
+              </p>
+            </div>
+            <div fxLayout="column" class="text-wrap">
+              <p class="m-0">Código Postal</p>
+              <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
+                {{shipmentData.origin.address.zip_code? shipmentData.origin.address.zip_code : "N/A"}}
+              </p>
+            </div>
+          </div>
+        </mat-card>
+
+        <mat-card class="w-100 h-100">
+          <div>
+            <h2 class="m-0 font-weight-light text-dark">Destino</h2>
+          </div>
+          <mat-divider inset></mat-divider>
+          <h3 class="text-dark pl-3 pt-3 pb-1 m-0 lead font-weight-bold">Datos fiscales de destino</h3>
+          <div class="container" fxLayout="column" fxLayoutGap="15px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start">
+            <div fxLayout="column" class="text-wrap">
+              <p class="m-0">RFC</p>
+              <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
+                {{shipmentData.destination.fiscal_information.rfc? shipmentData.destination.fiscal_information.rfc : "N/A"}}
+              </p>
+            </div>
+            <div fxLayout="column" class="text-wrap">
+              <p class="m-0">Nombre</p>
+              <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
+                {{shipmentData.destination.fiscal_information.full_name? shipmentData.destination.fiscal_information.full_name : "N/A"}}
+              </p>
+            </div>
+            <div fxLayout="column" class="text-wrap">
+              <p class="m-0">Clave del país</p>
+              <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
+                {{shipmentData.destination.fiscal_information.fiscal_residence? shipmentData.destination.fiscal_information.fiscal_residence : "N/A"}}
+              </p>
+            </div>
+          </div>
+          <h3 class="text-dark pl-3 pt-3 pb-1 m-0 lead font-weight-bold">Domicilio de destino</h3>
+          <div class="container" fxLayout="column" fxLayoutGap="15px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start">
+            <div fxLayout="column" class="text-wrap">
+              <p class="m-0">Domicilio completo</p>
+              <p class="p-0 pl-1 font-weight-light m-0 text-muted border-selector">{{shipmentData.destination.address.address_line}},
+                Col. {{shipmentData.destination.address.neighborhood.name}},
+                {{shipmentData.destination.address.city.name}},
+                {{shipmentData.destination.address.state.name}},
+                {{shipmentData.destination.address.country.name}}
+              </p>
+            </div>
+            <div fxLayout="column" class="text-wrap">
+              <p class="m-0">Código Postal</p>
+              <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
+                {{shipmentData.destination.address.zip_code? shipmentData.destination.address.zip_code : "N/A"}}
+              </p>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+
+      <mat-card class="w-100 h-100 mb-2">
+        <div class="w-100 px-2 py-0" fxLayout fxLayout.lt-md="column" fxLayoutAlign="space-between center">
+          <h2 class="m-0 font-weight-light">Datos de mercancía</h2>
+          <div fxLayout fxLayoutAlign="space-between center" fxLayoutGap="15px">
+            <h2 class="m-0 font-weight-light text-muted pr-2">Total de paquetes: <span class="text-dark font-weight-normal text-center"> {{totalItems}}</span></h2>
+          </div>
+        </div>
+        <mat-divider inset></mat-divider>
+        <div class="table-container">
+          <table mat-table matSort [dataSource]="dataSource" class="w-100">
+            <ng-container matColumnDef="category">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Categoría </th>
+              <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
+              <td mat-cell *matCellDef="let element" class="text-wrap"> {{element.description}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="unit_code">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Clave de unidad </th>
+              <td mat-cell *matCellDef="let element"> {{element.unit_code}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
+              <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="dimensions">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Dimensiones </th>
+              <td mat-cell *matCellDef="let element">
+                Alto: {{element.dimensions.height}}
+                <br>
+                Largo: {{element.dimensions.lenght}}
+                <br>
+                Ancho: {{element.dimensions.width}}
+                <br>
+                Peso: {{element.dimensions.weight}}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  <!-- overlay -->
+  <div *ngIf="isLoading" id="overlay">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+      <circle cx="50" cy="50" r="32" stroke-width="8" stroke="#718ffe" stroke-dasharray="50.26548245743669 50.26548245743669" fill="none" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
+      </circle>
+    </svg>
+    <!-- [ldio] generated by https://loading.io/ -->
+  </div>
+</section>

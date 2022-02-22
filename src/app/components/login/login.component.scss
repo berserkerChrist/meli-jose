@@ -1,0 +1,38 @@
+@import '../../../assets/helpers.scss';
+
+@include md-and-down{
+  .w-25-custom{
+    width: auto !important;
+  }
+}
+
+.w-25-custom{
+  width: 25%;
+}
+
+.welcome-backdrop{
+  height: 100%;
+  width: 100%;
+  //background-color: black;
+  background-color: black;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('/assets/img/pexels-kevin-bidwell-2348359 (1).jpg');
+  filter: blur(4px);
+  -webkit-filter: blur(4px);
+  background-attachment: fixed;
+  position: absolute;
+}
+
+.heavy-round{
+  border-radius: 20px !important;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: lightgrey;
+}
+

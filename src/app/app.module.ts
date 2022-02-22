@@ -9,6 +9,24 @@ import { SnackbarComponent } from './components/shared/snackbar/snackbar.compone
 import { RouteComponent } from './components/dashboard/route/route.component';
 import { DispatchComponent } from './components/dashboard/dispatch/dispatch.component';
 import { ShipmentComponent } from './components/dashboard/shipment/shipment.component';
+import { MaterialModule } from './material.module';
+import { FormsModule } from '@angular/forms';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthGuard } from '@angular/fire/compat/auth-guard';
+import { DispatchService } from './services/dispatch.service';
+import { RouteService } from './services/route.service';
+import { ShipmentService } from './services/shipment.service';
+import { HttpClientModule } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+//secret: dQmXb8d4SFn6NJ0ll9byQh8glo7qTe2B
+//app id: 6405759465013159
+//user id: 1066545024
+
+
 
 @NgModule({
   declarations: [
@@ -22,9 +40,16 @@ import { ShipmentComponent } from './components/dashboard/shipment/shipment.comp
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MaterialModule,
+    FormsModule,
+    FlexLayoutModule,
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
   ],
-  providers: [],
+  providers: [AngularFireAuthGuard, DispatchService, RouteService, ShipmentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

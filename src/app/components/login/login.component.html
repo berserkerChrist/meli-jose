@@ -1,1 +1,31 @@
-<p>login works!</p>
+<div class="welcome-backdrop"></div>
+<div class="position-relative" fxLayout fxLayoutAlign="center center" class="w-100 h-100">
+  <mat-card class="shadow-sm heavy-round pt-5 px-5 w-25-custom" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
+    <mat-card-title class="text-center text-dark">¡Bienvenido!</mat-card-title>
+    <mat-divider inset=""></mat-divider>
+
+    <img [src]="_getAvatar()" alt="avatar" class="avatar">
+
+    <form #loginForm="ngForm" fxLayout="column" fxLayoutAlign="space-around center" class="w-100" fxLayoutGap="10px" (ngSubmit)="loginForm.valid? _onLogin(loginForm) : false">
+      <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true">
+        <mat-label>Correo</mat-label>
+        <input matInput type="email" ngModel name="email" required #emailInput="ngModel" email>
+        <mat-error *ngIf="!emailInput.hasError('required')">La dirección de correo no es válida</mat-error>
+        <mat-error *ngIf="emailInput.hasError('required')">Ingresa un correo válido</mat-error>
+      </mat-form-field>
+      <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true" required>
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" ngModel name="password" required #passInput="ngModel" password>
+        <mat-error *ngIf="passInput.hasError('required')">Ingresa una contraseña</mat-error>
+      </mat-form-field>
+      <button (click)="_onLogin(loginForm)" mat-stroked-button class="w-50">Acceder</button>
+    </form>
+
+    <!-- <p class="text-center text-muted small">Al acceder se genera un token válido por 6 horas</p> -->
+    <mat-divider inset></mat-divider>
+
+    <mat-card-footer>
+      <p class="text-muted small">© 2022 José Esquivel | All rights reserved</p>
+    </mat-card-footer>
+  </mat-card>
+</div>

@@ -1,1 +1,8 @@
-<p>snackbar works!</p>
+<div fxLayout fxLayoutAlign="space-between center">
+  <div class="w-100">
+    <span class="text-center">{{data.message}}</span>
+  </div>
+  <button mat-icon-button (click)="snackRef.dismiss()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
