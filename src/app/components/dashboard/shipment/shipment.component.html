@@ -53,9 +53,14 @@
           <div class="container" fxLayout="column" fxLayoutGap="15px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start">
             <div fxLayout="column" class="text-wrap">
               <p class="m-0">RFC</p>
-              <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
-                {{shipmentData.origin.fiscal_information.rfc? shipmentData.origin.fiscal_information.rfc: 'N/A' }}
-              </p>
+              <div fxLayout fxLayoutAlign="space-between center">
+                <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
+                  {{shipmentData.origin.fiscal_information.rfc? shipmentData.origin.fiscal_information.rfc: 'N/A' }}
+                </p>
+                <div *ngIf="shipmentData.origin.fiscal_information.rfc" class="clickable ml-4 pt-1" matRipple [matRippleUnbounded]="true" [matRippleRadius]=20 (click)="copy(shipmentData.origin.fiscal_information.rfc)">
+                  <mat-icon class="mat-icon">content_copy</mat-icon>
+                </div>
+              </div>
             </div>
             <div fxLayout="column" class="text-wrap">
               <p class="m-0">Nombre</p>
@@ -72,20 +77,30 @@
           </div>
           <h3 class="text-dark pl-3 pt-3 pb-1 m-0 lead font-weight-bold">Domicilio de origen</h3>
           <div class="container" fxLayout="column" fxLayoutGap="15px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start">
-            <div fxLayout="column" class="text-wrap">
+            <div fxFlex fxLayout="column" class="text-wrap">
               <p class="m-0">Domicilio completo</p>
-              <p class="p-0 pl-1 font-weight-light m-0 text-muted border-selector">{{shipmentData.origin.address.address_line}},
-                Col. {{shipmentData.origin.address.neighborhood.name}},
-                {{shipmentData.origin.address.city.name}},
-                {{shipmentData.origin.address.state.name}},
-                {{shipmentData.origin.address.country.name}}
-              </p>
+              <div fxLayout fxLayoutAlign="space-between">
+                <p class="p-0 pl-1 font-weight-light m-0 text-muted border-selector">{{shipmentData.origin.address.address_line}},
+                  Col. {{shipmentData.origin.address.neighborhood.name}},
+                  {{shipmentData.origin.address.city.name}},
+                  {{shipmentData.origin.address.state.name}},
+                  {{shipmentData.origin.address.country.name}}
+                </p>
+                <div *ngIf="shipmentData.origin.address.address_line" class="clickable ml-4 pt-1" matRipple [matRippleUnbounded]="true" [matRippleRadius]=20 (click)="copy(shipmentData.origin.address.address_line)">
+                  <mat-icon class="mat-icon">content_copy</mat-icon>
+                </div>
+              </div>
             </div>
-            <div fxLayout="column" class="text-wrap">
+            <div fxFlex="33" fxLayout="column" class="text-wrap">
               <p class="m-0">Código Postal</p>
-              <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
-                {{shipmentData.origin.address.zip_code? shipmentData.origin.address.zip_code : "N/A"}}
-              </p>
+              <div fxLayout fxLayoutAlign="space-between">
+                <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
+                  {{shipmentData.origin.address.zip_code? shipmentData.origin.address.zip_code : "N/A"}}
+                </p>
+                <div *ngIf="shipmentData.origin.address.zip_code" class="clickable ml-4 pt-1" matRipple [matRippleUnbounded]="true" [matRippleRadius]=20 (click)="copy(shipmentData.origin.address.zip_code)">
+                  <mat-icon class="mat-icon">content_copy</mat-icon>
+                </div>
+              </div>
             </div>
           </div>
         </mat-card>
@@ -99,9 +114,14 @@
           <div class="container" fxLayout="column" fxLayoutGap="15px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start">
             <div fxLayout="column" class="text-wrap">
               <p class="m-0">RFC</p>
-              <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
-                {{shipmentData.destination.fiscal_information.rfc? shipmentData.destination.fiscal_information.rfc : "N/A"}}
-              </p>
+              <div fxLayout fxLayoutAlign="space-between">
+                <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
+                  {{shipmentData.destination.fiscal_information.rfc? shipmentData.destination.fiscal_information.rfc : "N/A"}}
+                </p>
+                <div *ngIf="shipmentData.destination.fiscal_information.rfc" class="clickable ml-4 pt-1" matRipple [matRippleUnbounded]="true" [matRippleRadius]=20 (click)="copy(shipmentData.destination.fiscal_information.rfc)">
+                  <mat-icon class="mat-icon">content_copy</mat-icon>
+                </div>
+              </div>
             </div>
             <div fxLayout="column" class="text-wrap">
               <p class="m-0">Nombre</p>
@@ -120,18 +140,28 @@
           <div class="container" fxLayout="column" fxLayoutGap="15px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start">
             <div fxLayout="column" class="text-wrap">
               <p class="m-0">Domicilio completo</p>
-              <p class="p-0 pl-1 font-weight-light m-0 text-muted border-selector">{{shipmentData.destination.address.address_line}},
-                Col. {{shipmentData.destination.address.neighborhood.name}},
-                {{shipmentData.destination.address.city.name}},
-                {{shipmentData.destination.address.state.name}},
-                {{shipmentData.destination.address.country.name}}
-              </p>
+              <div fxLayout fxLayoutAlign="space-between">
+                <p class="p-0 pl-1 font-weight-light m-0 text-muted border-selector">{{shipmentData.destination.address.address_line}},
+                  Col. {{shipmentData.destination.address.neighborhood.name}},
+                  {{shipmentData.destination.address.city.name}},
+                  {{shipmentData.destination.address.state.name}},
+                  {{shipmentData.destination.address.country.name}}
+                </p>
+                <div *ngIf="shipmentData.destination.address.address_line" class="clickable ml-4 pt-1" matRipple [matRippleUnbounded]="true" [matRippleRadius]=20 (click)="copy(shipmentData.destination.address.address_line)">
+                  <mat-icon class="mat-icon">content_copy</mat-icon>
+                </div>
+              </div>
             </div>
-            <div fxLayout="column" class="text-wrap">
+            <div fxFlex="33" fxLayout="column" class="text-wrap">
               <p class="m-0">Código Postal</p>
-              <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
-                {{shipmentData.destination.address.zip_code? shipmentData.destination.address.zip_code : "N/A"}}
-              </p>
+              <div fxLayout fxLayoutAlign="space-between">
+                <p class="p-0 pl-1 font-weight-light text-wrap m-0 text-muted border-selector">
+                  {{shipmentData.destination.address.zip_code? shipmentData.destination.address.zip_code : "N/A"}}
+                </p>
+                <div *ngIf="shipmentData.destination.address.zip_code" class="clickable ml-4 pt-1" matRipple [matRippleUnbounded]="true" [matRippleRadius]=20 (click)="copy(shipmentData.destination.address.zip_code)">
+                  <mat-icon class="mat-icon">content_copy</mat-icon>
+                </div>
+              </div>
             </div>
           </div>
         </mat-card>
@@ -149,7 +179,7 @@
           <table mat-table matSort [dataSource]="dataSource" class="w-100">
             <ng-container matColumnDef="category">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Categoría </th>
-              <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+              <td mat-cell *matCellDef="let element"> <div  class="clickable" matRipple (click)="copy(element.category)" >{{element.category}}</div> </td>
             </ng-container>
 
             <ng-container matColumnDef="description">
@@ -170,13 +200,10 @@
             <ng-container matColumnDef="dimensions">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Dimensiones </th>
               <td mat-cell *matCellDef="let element">
-                Alto: {{element.dimensions.height}}
-                <br>
-                Largo: {{element.dimensions.lenght}}
-                <br>
-                Ancho: {{element.dimensions.width}}
-                <br>
-                Peso: {{element.dimensions.weight}}
+                <p class="p-0 m-0" *ngIf="element.dimensions.height">Alto: {{element.dimensions.height}}cm. </p>
+                <p class="p-0 m-0" *ngIf="element.dimensions.lenght">Largo: {{element.dimensions.lenght}}cm.</p>
+                <p class="p-0 m-0" *ngIf="element.dimensions.width">Ancho: {{element.dimensions.width}}cm.</p>
+                <p class="p-0 m-0" *ngIf="element.dimensions.weight">Peso: {{element.dimensions.weight}}g.</p>
               </td>
             </ng-container>
 

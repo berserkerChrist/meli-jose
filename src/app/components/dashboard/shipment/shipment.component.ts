@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ClipboardService } from 'ngx-clipboard';
 import { ShipmentResponse } from 'src/app/interfaces/shipment-model';
 import { NotifierService } from 'src/app/services/notifier.service';
 import { ShipmentService } from 'src/app/services/shipment.service';
@@ -41,7 +42,7 @@ export class ShipmentComponent implements OnInit{
   shipCost!: string | null;
   totalItems!: string | null;
 
-  constructor(private shipService: ShipmentService, private notifications: NotifierService ) { }
+  constructor(private shipService: ShipmentService, private notifications: NotifierService, private clipboard: ClipboardService) { }
   private authTokenKey!: string | null;
 
   @ViewChild(MatSort) set matSort(sort: MatSort) {
@@ -89,6 +90,12 @@ export class ShipmentComponent implements OnInit{
         }
       }
     })
+  }
+
+  copy(copiedValue: any){
+    console.log(copiedValue)
+    this.clipboard.copyFromContent(copiedValue);
+    this.notifications.showNotification(`Se copió ${copiedValue} al portapapeles`, 'Cerrar', 'success');
   }
 
 }

@@ -12,7 +12,8 @@ export class DispatchService {
   constructor(private http: HttpClient){}
 
   _requestDispatchData(payload: DispatchPayload){
-    return this.http.get<DispatchModel>(this._rootURL + '/dispatch/' + payload.id + '/carta-porte-details?access_token=' + payload.authToken)
+    return this.http.get<DispatchModel>
+    (this._rootURL + '/dispatch/' + payload.id + '/carta-porte-details?access_token=' + payload.authToken)
   }
 
   _requestByRoute(dispatchPayload: RequestDispatchPayload){

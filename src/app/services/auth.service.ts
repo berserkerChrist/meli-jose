@@ -14,10 +14,15 @@ export class AuthService {
   //sistematransportesace10@gmail.com
   //#sistemaje18
 
+  //secret: dQmXb8d4SFn6NJ0ll9byQh8glo7qTe2B
+  //app id: 6405759465013159
+  //user id: 1066545024
+
+
   readonly _rootURL = 'https://api.mercadolibre.com/';
   readonly _accessToken = {
-    "client_id": 3760663880727805,
-    "client_secret": "B0ksXKPENtGTm9Aq13gAnI0YKhSYNN9e",
+    "client_id": 6405759465013159,
+    "client_secret": "dQmXb8d4SFn6NJ0ll9byQh8glo7qTe2B",
     "grant_type": "client_credentials"
   }
 
@@ -45,8 +50,8 @@ export class AuthService {
       console.log(credentials)
       let token = credentials.access_token
       localStorage.setItem('auth', token)
+      this.router.navigate(['/dashboard/'])
     }))
-    this.router.navigate(['/dashboard/'])
     //this.isAuthenticated = true;
     //this.authChange.next(true);
   }

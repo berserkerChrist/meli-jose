@@ -9,7 +9,7 @@
 }
 
 .table-container {
-  height: 300px;
+  height: auto;
   max-height: 300px;
   max-width: 100%;
   overflow-y: auto;
@@ -60,4 +60,15 @@
   font-size: medium;
   color: gray;
   text-align: center;
+}
+
+.mat-icon {
+  height: 17px !important;
+  width: 17px !important;
+  font-size: 17px !important;
+  color: lightgray;
+}
+
+.clickable {
+  cursor: pointer;
 }

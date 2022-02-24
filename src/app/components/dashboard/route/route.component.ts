@@ -7,6 +7,7 @@ import { RouteService } from 'src/app/services/route.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ShipmentResponse } from 'src/app/interfaces/shipment-model';
 import { NotifierService } from 'src/app/services/notifier.service';
+import { ClipboardService } from 'ngx-clipboard';
 
 export interface DataTable {
   entity_id: string,
@@ -47,6 +48,7 @@ export class RouteComponent implements OnInit {
   cargoColumns: string[] = ['category', 'description', 'unit_code', 'quantity', 'dimensions']
   cargoDataSource = new MatTableDataSource<ResponseData>(this.itemTable);
   /* second table */
+
   isLoading = false;
   isHidden = true;
   cargoIsHidden = true;
@@ -55,7 +57,11 @@ export class RouteComponent implements OnInit {
   shipCost!: string | null;
   totalItems!: number | null;
 
-  constructor(private routeService: RouteService, private notifications: NotifierService) { }
+  constructor(private routeService: RouteService, private notifications: NotifierService, private clipboard: ClipboardService) {
+    let token = localStorage.getItem('auth');
+    this.authTokenKey = token!;
+    console.log(token)
+  }
 
   @ViewChild(MatSort) set matSort(sort: MatSort) {
     this.dataSource.sort = sort;
@@ -66,8 +72,6 @@ export class RouteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let token = localStorage.getItem('auth');
-    this.authTokenKey = token!;
   }
 
   onSubmit(form: NgForm){
@@ -93,7 +97,7 @@ export class RouteComponent implements OnInit {
         this.notifications.showNotification('Por favor, renueva el token de acceso', 'Cerrar', 'error');
       } else if (error.status == 403) {
         this.notifications.showNotification('Acceso a API denegado', 'Cerrar', 'error');
-      } else if (error.status == 404) {
+      } else if (error.status == 404 || error.status == 400 ) {
         this.notifications.showNotification('Datos no encontrados, por favor revisa de nuevo los datos', 'Cerrar', 'error');
       }
     }
@@ -115,6 +119,11 @@ export class RouteComponent implements OnInit {
   _lenght(value: any){
     const inputValue = String(value);
     return inputValue.length;
+  }
+
+  copy(copiedValue: any){
+    this.clipboard.copyFromContent(copiedValue);
+    this.notifications.showNotification(`Se copió ${copiedValue} al portapapeles`, 'Cerrar', 'success');
   }
 
 }

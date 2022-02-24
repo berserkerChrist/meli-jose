@@ -22,11 +22,6 @@ import { ShipmentService } from './services/shipment.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-//secret: dQmXb8d4SFn6NJ0ll9byQh8glo7qTe2B
-//app id: 6405759465013159
-//user id: 1066545024
-
-
 
 @NgModule({
   declarations: [

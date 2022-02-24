@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { ShipmentResponse } from 'src/app/interfaces/shipment-model';
 import { DispatchService } from 'src/app/services/dispatch.service';
 import { NotifierService } from 'src/app/services/notifier.service';
+import { ClipboardService } from 'ngx-clipboard';
 
 export interface DataTable {
   entity_id: string,
@@ -55,7 +56,7 @@ export class DispatchComponent implements OnInit {
   totalItems!: number | null;
   private authTokenKey!: string;
 
-  constructor(private dispatchService: DispatchService, private notifications: NotifierService) { }
+  constructor(private dispatchService: DispatchService, private notifications: NotifierService, private clipboard: ClipboardService) { }
 
   @ViewChild(MatSort) set matSort(sort: MatSort) {
     this.dataSource.sort = sort;
@@ -115,6 +116,12 @@ export class DispatchComponent implements OnInit {
   _lenght(value: any){
     const inputValue = String(value);
     return inputValue.length;
+  }
+
+  copy(copiedValue: any){
+    console.log(copiedValue)
+    this.clipboard.copyFromContent(copiedValue);
+    this.notifications.showNotification(`Se copió ${copiedValue} al portapapeles`, 'Cerrar', 'success');
   }
 
 }
