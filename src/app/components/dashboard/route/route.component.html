@@ -10,7 +10,7 @@
         <mat-divider inset></mat-divider>
           <form #routeInput="ngForm" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row wrap" fxLayoutAlign.gt-sm="center" fxLayoutGap="10px" class="mt-4 w-100"
             (ngSubmit)="routeInput.valid? onSubmit(routeInput) : false;"><!-- routeInput.valid? _requestrouteData() : false; -->
-              <div fxFlex="90">
+              <div fxFlex="85">
                 <mat-form-field class="w-100 p-0 m-0" appearance="outline" [hideRequiredMarker]="true">
                   <mat-label>No. de ruta</mat-label>
                   <input matInput type="text" ngModel name="routeID" #routeInputString="ngModel" required minlength="8" maxlength="8">
@@ -20,20 +20,29 @@
                 </mat-form-field>
               </div>
               <div fxFlex>
-                <button type="submit" mat-stroked-button class="form-btn text-dark">Buscar</button>
+                <button type="submit" mat-stroked-button class="form-btn text-dark w-100">Buscar</button>
               </div>
           </form>
       </mat-card>
       <mat-card [hidden]="isHidden" class="w-100 mt-3">
         <div class="w-100 px-2 py-0" fxLayout fxLayout.lt-md="column" fxLayoutAlign="space-between center">
           <h3 class="m-0 font-weight-light">Paquetes de la ruta</h3>
-          <div fxLayout fxLayoutAlign="space-between center" fxLayoutGap="15px">
+          <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between center" fxLayoutGap="15px">
             <h3 class="m-0 font-weight-light text-muted pr-2">Total de paquetes: <span class="text-dark font-weight-normal text-center"> {{totalItems}}</span></h3>
             <h3 class="m-0 font-weight-light text-muted">Costo: <span class="text-dark font-weight-normal text-center"> ${{shipCost}}.00</span></h3>
+            <div class="pb-1">
+              <button class="ml-1" mat-icon-button (click)="exporter.exportTable('xlsx', {fileName: routeInput.value.routeID })">
+                <mat-icon class="text-muted">file_download</mat-icon>
+              </button>
+              <button class="ml-1" mat-icon-button (click)="copy(copiedArray)">
+                <mat-icon class="text-muted">content_copy</mat-icon>
+              </button>
+            </div>
+
           </div>
         </div>
         <div class="table-container">
-          <table mat-table matSort [dataSource]="dataSource" class="w-100">
+          <table mat-table matSort [dataSource]="dataSource" matTableExporter #exporter="matTableExporter" class="w-100">
             <ng-container matColumnDef="entity_id">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>ID del paquete </th>
               <td mat-cell *matCellDef="let element" matRipple> {{element.entity_id}} </td>
@@ -51,7 +60,7 @@
       <div fxLayout fxLayoutAlign="flex-start center">
         <h2 class="text-muted mt-1 font-weight-light mx-0 mb-0">Información del paquete #{{ selectedRoute }}</h2>
         <div class="clickable text-muted ml-3 pt-2" matRipple [matRippleUnbounded]="true" [matRippleRadius]=20 (click)="copy(selectedRoute)">
-          <mat-icon class="mat-icon">content_copy</mat-icon>
+          <mat-icon class="mat-icon text-dark">content_copy</mat-icon>
         </div>
       </div>
       <div fxFlex="auto auto auto" fxLayout="column" fxLayoutGap="10px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start" >
@@ -192,17 +201,17 @@
 
             <ng-container matColumnDef="description">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
-              <td mat-cell *matCellDef="let element" class="text-wrap"> {{element.description}} </td>
+              <td mat-cell *matCellDef="let element" class="text-wrap"><div class="clickable" matRipple (click)="copy(element.description)">{{element.description}}</div> </td>
             </ng-container>
 
             <ng-container matColumnDef="unit_code">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Clave de unidad </th>
-              <td mat-cell *matCellDef="let element"> {{element.unit_code}} </td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave de unidad </th>
+              <td mat-cell *matCellDef="let element"> <div class="clickable" matRipple (click)="copy(element.description)">{{element.unit_code}}</div></td>
             </ng-container>
 
             <ng-container matColumnDef="quantity">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
-              <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+              <td mat-cell *matCellDef="let element"> <div class="clickable" matRipple (click)="copy(element.description)">{{element.quantity}}</div></td>
             </ng-container>
 
             <ng-container matColumnDef="dimensions">

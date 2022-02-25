@@ -42,7 +42,10 @@ export class ShipmentComponent implements OnInit{
   shipCost!: string | null;
   totalItems!: string | null;
 
-  constructor(private shipService: ShipmentService, private notifications: NotifierService, private clipboard: ClipboardService) { }
+  constructor(private shipService: ShipmentService, private notifications: NotifierService, private clipboard: ClipboardService) {
+    let token = localStorage.getItem('auth');
+    this.authTokenKey = token!;
+  }
   private authTokenKey!: string | null;
 
   @ViewChild(MatSort) set matSort(sort: MatSort) {
@@ -50,8 +53,6 @@ export class ShipmentComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    let token = localStorage.getItem('auth');
-    this.authTokenKey = token!;
   }
 
   _lenght(value: any){
@@ -93,7 +94,6 @@ export class ShipmentComponent implements OnInit{
   }
 
   copy(copiedValue: any){
-    console.log(copiedValue)
     this.clipboard.copyFromContent(copiedValue);
     this.notifications.showNotification(`Se copió ${copiedValue} al portapapeles`, 'Cerrar', 'success');
   }

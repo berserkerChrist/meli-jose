@@ -52,10 +52,11 @@ export class RouteComponent implements OnInit {
   isLoading = false;
   isHidden = true;
   cargoIsHidden = true;
-  selectedRoute!: string | null;
+  selectedRoute!: string | undefined;
   private authTokenKey!: string | null;
   shipCost!: string | null;
   totalItems!: number | null;
+  copiedArray!: string;
 
   constructor(private routeService: RouteService, private notifications: NotifierService, private clipboard: ClipboardService) {
     let token = localStorage.getItem('auth');
@@ -88,6 +89,11 @@ export class RouteComponent implements OnInit {
       this.dataSource.data = this.routeData.shipments as DataTable[];
       this.isLoading = false
       this.isHidden = false
+      let filteredArray = response.shipments.map(({url, ...rest})=> {
+        return rest
+      })
+      let array  = filteredArray.map((obj) => obj.entity_id)
+      this.copiedArray = array.join(", ")
     },
     error: (error) => {
       this.isLoading = false;
@@ -123,7 +129,7 @@ export class RouteComponent implements OnInit {
 
   copy(copiedValue: any){
     this.clipboard.copyFromContent(copiedValue);
-    this.notifications.showNotification(`Se copió ${copiedValue} al portapapeles`, 'Cerrar', 'success');
+    this.notifications.showNotification(`Dato copiado al portapapeles`, 'Cerrar', 'success');
   }
 
 }

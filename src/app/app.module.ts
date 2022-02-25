@@ -21,6 +21,7 @@ import { RouteService } from './services/route.service';
 import { ShipmentService } from './services/shipment.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FormsModule,
     FlexLayoutModule,
     HttpClientModule,
+    MatTableExporterModule,
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

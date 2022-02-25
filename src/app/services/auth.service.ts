@@ -29,7 +29,7 @@ export class AuthService {
   constructor(private http: HttpClient, private fireAuth: Auth, private router: Router, private notification: NotifierService) { }
 
   _requestAccessToken(){
-    console.log(this._accessToken.client_id);
+    //console.log(this._accessToken.client_id);
     return this.http.post<TokenModel>(this._rootURL + 'oauth/token', JSON.stringify(this._accessToken));
   }
 
@@ -47,7 +47,7 @@ export class AuthService {
 
   private authSuccess(){
     this._requestAccessToken().subscribe((credentials => {
-      console.log(credentials)
+      //console.log(credentials)
       let token = credentials.access_token
       localStorage.setItem('auth', token)
       this.router.navigate(['/dashboard/'])

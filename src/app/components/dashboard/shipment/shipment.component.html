@@ -6,36 +6,23 @@
     <div fxLayout="column" fxLayoutAlign.lt-md="space-between center" fxLayoutGap="15px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="flex-start center">
       <mat-card class="w-100">
         <div>
-          <h2 class="m-0 font-weight-light text-dark">Consulta por embarque</h2>
+          <h2 class="m-0 font-weight-light text-dark">Consulta por paquete</h2>
         </div>
         <mat-divider inset></mat-divider>
           <form #shipmentInput="ngForm" fxLayout="column" fxLayoutAlign="flex-start center" fxLayout.gt-sm="row wrap" fxLayoutAlign.gt-sm="center" fxLayoutGap="10px" class="mt-4 w-100 h-50"
             (ngSubmit)="shipmentInput.valid? onSubmit(shipmentInput) : false;"><!-- shipmentInput.valid? _requestshipmentData() : false; -->
-            <mat-form-field  appearance="outline" [hideRequiredMarker]="true">
-              <mat-label>No. de embarque</mat-label>
-              <input matInput type="text" ngModel name="shipmentID" #shipmentInputString="ngModel" required minlength="11" maxlength="11" >
-              <span matSuffix class="text-muted">{{ _lenght(shipmentInputString.value) }} / 11</span>
-              <mat-error *ngIf="!shipmentInputString.hasError('required')">El ID es menor a 11 caracteres</mat-error>
-              <mat-error *ngIf="shipmentInputString.hasError('required')">Ingresa un ID válido</mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Tipo de servicio</mat-label>
-              <mat-select [(value)]="selected" required name="selectedValue" #selectValue="ngModel" ngModel>
-                <mat-option *ngFor="let option of options" [value]="option.value">
-                  {{option.name}}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="selectValue.hasError('required')">Elige una opción</mat-error>
-            </mat-form-field>
-            <mat-form-field  appearance="outline" [hideRequiredMarker]="true">
-              <mat-label>Clave de origen</mat-label>
-              <input matInput type="text" ngModel name="originID" #originInputString="ngModel" [required]="selectValue.value=='middle_mile'? true : false " minlength="6"
-                maxlength="6">
-              <span matSuffix class="text-muted">{{ _lenght(originInputString.value) }} / 6</span>
-              <mat-error *ngIf="!originInputString.hasError('required')">El ID es menor a 6 caracteres</mat-error>
-              <mat-error *ngIf="originInputString.hasError('required')">Ingresa un ID válido</mat-error>
-            </mat-form-field>
-            <button type="submit" mat-stroked-button class="form-btn text-dark">Buscar</button>
+            <div fxFlex="85">
+              <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true">
+                <mat-label>No. de paquete</mat-label>
+                <input matInput type="text" ngModel name="shipmentID" #shipmentInputString="ngModel" required minlength="11" maxlength="11" >
+                <span matSuffix class="text-muted">{{ _lenght(shipmentInputString.value) }} / 11</span>
+                <mat-error *ngIf="!shipmentInputString.hasError('required')">El ID es menor a 11 caracteres</mat-error>
+                <mat-error *ngIf="shipmentInputString.hasError('required')">Ingresa un ID válido</mat-error>
+              </mat-form-field>
+            </div>
+            <div fxFlex>
+              <button type="submit" mat-stroked-button class="form-btn text-dark w-100">Buscar</button>
+            </div>
           </form>
       </mat-card>
     </div>
