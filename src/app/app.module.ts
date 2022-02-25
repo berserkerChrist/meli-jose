@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/login/login.component';
 import { SnackbarComponent } from './components/shared/snackbar/snackbar.component';
 import { RouteComponent } from './components/dashboard/route/route.component';
-import { DispatchComponent } from './components/dashboard/dispatch/dispatch.component';
+//import { DispatchComponent } from './components/dashboard/dispatch/dispatch.component';
 import { ShipmentComponent } from './components/dashboard/shipment/shipment.component';
 import { MaterialModule } from './material.module';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +16,7 @@ import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthGuard } from '@angular/fire/compat/auth-guard';
-import { DispatchService } from './services/dispatch.service';
+//import { DispatchService } from './services/dispatch.service';
 import { RouteService } from './services/route.service';
 import { ShipmentService } from './services/shipment.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -30,7 +30,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     LoginComponent,
     SnackbarComponent,
     RouteComponent,
-    DispatchComponent,
+    //DispatchComponent,
     ShipmentComponent
   ],
   imports: [
@@ -46,7 +46,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
   ],
-  providers: [AngularFireAuthGuard, DispatchService, RouteService, ShipmentService],
+  providers: [AngularFireAuthGuard, RouteService, ShipmentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

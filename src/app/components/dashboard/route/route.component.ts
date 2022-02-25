@@ -61,7 +61,6 @@ export class RouteComponent implements OnInit {
   constructor(private routeService: RouteService, private notifications: NotifierService, private clipboard: ClipboardService) {
     let token = localStorage.getItem('auth');
     this.authTokenKey = token!;
-    console.log(token)
   }
 
   @ViewChild(MatSort) set matSort(sort: MatSort) {
@@ -129,7 +128,7 @@ export class RouteComponent implements OnInit {
 
   copy(copiedValue: any){
     this.clipboard.copyFromContent(copiedValue);
-    this.notifications.showNotification(`Dato copiado al portapapeles`, 'Cerrar', 'success');
+    this.notifications.showNotification(`Copiado al portapapeles`, 'Cerrar', 'success');
   }
 
 }

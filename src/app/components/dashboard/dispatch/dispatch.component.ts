@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+/* import { Component, OnInit, ViewChild } from '@angular/core';
 import { DispatchModel } from 'src/app/interfaces/dispatch-model';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgForm } from '@angular/forms';
@@ -34,19 +34,19 @@ export interface ResponseData {
 })
 export class DispatchComponent implements OnInit {
 
-  /* first table */
+
   dispatchData!: DispatchModel;
   routeTable!: DataTable[];
   displayedColumns: string[] = ['entity_id'];
   dataSource = new MatTableDataSource<DataTable>(this.routeTable);
-  /* first table */
 
-  /* second table */
+
+
   cargo!: ShipmentResponse | null;
   itemTable!: ResponseData[];
   cargoColumns: string[] = ['category', 'description', 'unit_code', 'quantity', 'dimensions']
   cargoDataSource = new MatTableDataSource<ResponseData>(this.itemTable);
-  /* second table */
+
 
   selectedShipment!: string | null;
   isLoading = false;
@@ -125,3 +125,4 @@ export class DispatchComponent implements OnInit {
   }
 
 }
+ */

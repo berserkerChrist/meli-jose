@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+/* import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { DispatchModel, DispatchPayload, RequestDispatchPayload } from "../interfaces/dispatch-model";
 import { ShipmentResponse } from "../interfaces/shipment-model";
@@ -22,3 +22,4 @@ export class DispatchService {
   }
 
 }
+ */
