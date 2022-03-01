@@ -22,7 +22,8 @@ import { ShipmentService } from './services/shipment.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatTableExporterModule } from 'mat-table-exporter';
-
+import { OrganizerComponent } from './components/dashboard/organizer/organizer.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     SnackbarComponent,
     RouteComponent,
     //DispatchComponent,
-    ShipmentComponent
+    ShipmentComponent,
+    OrganizerComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +44,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     FlexLayoutModule,
     HttpClientModule,
     MatTableExporterModule,
+    NgxDropzoneModule,
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

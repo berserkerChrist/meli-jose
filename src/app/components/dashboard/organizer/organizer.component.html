@@ -1,0 +1,115 @@
+<section class="h-100 position-relative">
+  <!-- main container -->
+  <div fxFlex fxLayout="column" class="container" fxLayoutGap="20px">
+    <!-- top row -->
+    <div fxLayout="column" fxLayoutAlign.lt-md="space-between center" fxLayoutGap="15px" fxLayoutAlign.gt-sm="flex-start">
+      <mat-card class="w-100">
+        <div>
+          <h2 class="m-0 font-weight-light text-dark">Sube aquí tu archivo</h2>
+        </div>
+        <mat-divider inset></mat-divider>
+
+        <div class="dropzone w-100 mt-2" [multiple]="false" ngx-dropzone [accept]="'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" (change)="onSelect($event)" >
+          <div fxFlex fxLayout="column" fxLayoutAlign="center center">
+            <h2 *ngIf="isSelected">Arrastra o selecciona tu archivo</h2>
+            <mat-icon *ngIf="isSelected" class="upload-icon" color="primary">cloud_upload</mat-icon>
+            <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+              <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
+            </ngx-dropzone-preview>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+    <div *ngIf="isVisible" fxFlex="auto auto auto" fxLayout="column" fxLayoutGap="10px">
+      <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel [disabled]="true">
+          <mat-expansion-panel-header>
+            <h2 class="m-0 font-weight-light text-dark">Total de códigos encontrados: {{compactedData.length}}</h2>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngFor="let data of compactedData">
+          <mat-expansion-panel-header class="bg-light" fxLayout fxLayoutAlign="flex-start center">
+            <div class="w-100" fxLayout fxLayoutAlign="flex-start center">
+              <div fxFlex="50" fxFlex.gt-sm="33" fxLayout="column" fxLayout.gt-sm="row">
+                <p class="m-0 p-0 text-dark mr-1">Bienes: </p>
+                <p class="m-0 p-0 text-muted font-weight-light">{{ data.goods }}</p>
+              </div>
+              <div fxFlex="50" fxFlex.gt-sm="66" fxLayout="column" fxLayout.gt-sm="row">
+                <p class="m-0 p-0 text-dark mr-1 text-nowrap">Total de Bienes: </p>
+                <p class="m-0 p-0 text-muted font-weight-light">{{ data.length }}</p>
+              </div>
+            </div>
+          </mat-expansion-panel-header>
+          <div class="w-100 mt-2" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-around center">
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <p class="text-dark font-weight-bold">Código de mercancía</p>
+              <div class="clickable" (click)="copy(data.goods)">
+                <p class="text-muted font-weight-light">{{ data.goods }}</p>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <p class="text-dark font-weight-bold">Descripción de mercancía</p>
+              <div class="clickable" (click)="copy(data.desc)">
+                <p class="text-muted font-weight-light">{{ data.desc }}</p>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <p class="text-dark font-weight-bold">Cantidad total</p>
+              <div class="clickable" (click)="copy(data.qty)">
+                <p class="text-muted font-weight-light">{{ data.qty }}</p>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <p class="text-dark font-weight-bold">Peso neto total</p>
+              <div class="clickable" (click)="copy(data.weight.toFixed(3))">
+                <p class="text-muted font-weight-light">{{ data.weight.toFixed(3) }}KG</p>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <p class="text-dark font-weight-bold">Valor neto total</p>
+              <div class="clickable" (click)="copy(data.net_worth)">
+                <p class="text-muted font-weight-light">{{ data.net_worth | currency }}</p>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+<!--
+      <table mat-table matSort [dataSource]="tableDataSource" class="w-100">
+        <ng-container matColumnDef="goods">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Bienes </th>
+          <td mat-cell *matCellDef="let element"> <div  class="clickable" matRipple (click)="copy(element.goods)" >{{element.goods}}</div> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="desc">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
+          <td mat-cell *matCellDef="let element" class="text-wrap"><div class="clickable" matRipple (click)="copy(element.desc)">{{element.desc}}</div> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="unit_code">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave de unidad </th>
+          <td mat-cell *matCellDef="let element"> <div class="clickable" matRipple (click)="copy(element.unit_code)">{{element.unit_code}}</div></td>
+        </ng-container>
+
+        <ng-container matColumnDef="qty">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
+          <td mat-cell *matCellDef="let element"> <div class="clickable" matRipple (click)="copy(element.qty)">{{element.qty}}</div></td>
+        </ng-container>
+
+        <ng-container matColumnDef="weight">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Peso neto </th>
+          <td mat-cell *matCellDef="let element"> <div class="clickable" matRipple (click)="copy(element.weight)">{{element.weight}}</div></td>
+        </ng-container>
+
+        <ng-container matColumnDef="net_worth">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor neto </th>
+          <td mat-cell *matCellDef="let element"> <div class="clickable" matRipple (click)="copy(element.net_worth)">{{element.net_worth}}</div></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table> -->
+    </div>
+  </div>
+</section>
