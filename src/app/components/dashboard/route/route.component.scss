@@ -62,13 +62,34 @@
   text-align: center;
 }
 
-.mat-icon {
-  height: 17px !important;
-  width: 17px !important;
-  font-size: 17px !important;
-  color: lightgray;
+.icon-large {
+  height: 30px !important;
+  width: 30px !important;
+  font-size: 30px !important;
+  margin: 10px;
+  color: white;
 }
 
 .clickable {
   cursor: pointer;
+}
+
+
+.btn-grad {
+  //background-image: linear-gradient(to right, #2a00e9 0%, #0095ff  51%, #2a00e9  100%);
+  background-color: #0095ff;
+  transition: 0.5s;
+  background-size: 200% auto;
+  border-radius: 5px;
+}
+
+ .btn-grad:hover {
+   background-position: right center; /* change the direction of the change here */
+ }
+
+ .mat-icon {
+  height: 17px !important;
+  width: 17px !important;
+  font-size: 17px !important;
+  color: lightgray;
 }

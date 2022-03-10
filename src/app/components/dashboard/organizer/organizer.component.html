@@ -3,11 +3,10 @@
   <div fxFlex fxLayout="column" class="container" fxLayoutGap="20px">
     <!-- top row -->
     <div fxLayout="column" fxLayoutAlign.lt-md="space-between center" fxLayoutGap="15px" fxLayoutAlign.gt-sm="flex-start">
-      <mat-card class="w-100">
-        <div>
-          <h2 class="m-0 font-weight-light text-dark">Sube aquí tu archivo</h2>
+      <mat-card class="w-100 pt-0 pb-3">
+        <div class="card-title shadow-sm mx-3 bg-grad mt-n-md">
+          <h2 class="m-0 font-weight-light text-white">Sube aqui tu archivo</h2>
         </div>
-        <mat-divider inset></mat-divider>
 
         <div class="dropzone w-100 mt-2" [multiple]="false" ngx-dropzone [accept]="'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" (change)="onSelect($event)" >
           <div fxFlex fxLayout="column" fxLayoutAlign="center center">
@@ -23,53 +22,87 @@
 
     <div *ngIf="isVisible" fxFlex="auto auto auto" fxLayout="column" fxLayoutGap="10px">
       <mat-accordion class="example-headers-align" multi>
-        <mat-expansion-panel [disabled]="true">
+        <mat-expansion-panel class="bg-grad">
           <mat-expansion-panel-header>
-            <h2 class="m-0 font-weight-light text-dark">Total de códigos encontrados: {{compactedData.length}}</h2>
+            <div class="w-100" fxLayout fxLayoutAlign="space-between center">
+              <h3 class="m-0 font-weight-light text-white">Códigos encontrados: {{compactedData.length}}</h3>
+            </div>
           </mat-expansion-panel-header>
+          <div class="w-100 mt-1" fxLayout="column" fxLayoutGap="30px" fxLayout.gt-sm="row" fxLayoutAlign="space-around center" fxLayoutAlign.gt-sm="flex-start center">
+            <div fxLayout="column" fxLayoutAlign="center flex-start">
+              <p class="text-white">Número de entrega</p>
+              <div class="clickable">
+                <p class="text-white font-weight-light border-selector">{{ delivery }}</p>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center flex-start">
+              <p class="text-white">Número de pedido</p>
+              <div class="clickable">
+                <p class="text-white font-weight-light border-selector">{{ order }}</p>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center flex-start">
+              <p class="text-white">Destino</p>
+              <div class="clickable">
+                <p class="text-white font-weight-light border-selector">{{ recipientName }}</p>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center flex-start">
+              <p class="text-white">Total de bienes registrados</p>
+              <div class="clickable">
+                <p class="text-white font-weight-light border-selector">{{ totalCodes }}</p>
+              </div>
+            </div>
+          </div>
         </mat-expansion-panel>
         <mat-expansion-panel *ngFor="let data of compactedData">
           <mat-expansion-panel-header class="bg-light" fxLayout fxLayoutAlign="flex-start center">
             <div class="w-100" fxLayout fxLayoutAlign="flex-start center">
               <div fxFlex="50" fxFlex.gt-sm="33" fxLayout="column" fxLayout.gt-sm="row">
-                <p class="m-0 p-0 text-dark mr-1">Bienes: </p>
+                <p class="m-0 p-0 text-dark mr-1">Código: </p>
                 <p class="m-0 p-0 text-muted font-weight-light">{{ data.goods }}</p>
               </div>
-              <div fxFlex="50" fxFlex.gt-sm="66" fxLayout="column" fxLayout.gt-sm="row">
+              <!-- <div fxFlex="50" fxFlex.gt-sm="66" fxLayout="column" fxLayout.gt-sm="row">
                 <p class="m-0 p-0 text-dark mr-1 text-nowrap">Total de Bienes: </p>
                 <p class="m-0 p-0 text-muted font-weight-light">{{ data.length }}</p>
-              </div>
+              </div> -->
             </div>
           </mat-expansion-panel-header>
-          <div class="w-100 mt-2" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-around center">
-            <div fxLayout="column" fxLayoutAlign="center center">
+          <div class="w-100 mt-1" fxLayout="column" fxLayoutGap="30px" fxLayout.gt-sm="row" fxLayoutAlign="space-around center" fxLayoutAlign.gt-sm="flex-start center">
+            <div fxLayout="column" fxLayoutAlign="center flex-start">
               <p class="text-dark font-weight-bold">Código de mercancía</p>
               <div class="clickable" (click)="copy(data.goods)">
-                <p class="text-muted font-weight-light">{{ data.goods }}</p>
+                <p class="text-muted font-weight-light border-selector">{{ data.goods }}</p>
               </div>
             </div>
-            <div fxLayout="column" fxLayoutAlign="center center">
+            <div fxLayout="column" fxLayoutAlign="center flex-start">
               <p class="text-dark font-weight-bold">Descripción de mercancía</p>
               <div class="clickable" (click)="copy(data.desc)">
-                <p class="text-muted font-weight-light">{{ data.desc }}</p>
+                <p class="text-muted font-weight-light border-selector">{{ data.desc }}</p>
               </div>
             </div>
-            <div fxLayout="column" fxLayoutAlign="center center">
+            <div fxLayout="column" fxLayoutAlign="center flex-start">
               <p class="text-dark font-weight-bold">Cantidad total</p>
               <div class="clickable" (click)="copy(data.qty)">
-                <p class="text-muted font-weight-light">{{ data.qty }}</p>
+                <p class="text-muted font-weight-light border-selector">{{ data.qty }}</p>
               </div>
             </div>
-            <div fxLayout="column" fxLayoutAlign="center center">
+            <div fxLayout="column" fxLayoutAlign="center flex-start">
               <p class="text-dark font-weight-bold">Peso neto total</p>
               <div class="clickable" (click)="copy(data.weight.toFixed(3))">
-                <p class="text-muted font-weight-light">{{ data.weight.toFixed(3) }}KG</p>
+                <p class="text-muted font-weight-light border-selector">{{ data.weight.toFixed(3) }}KG</p>
               </div>
             </div>
-            <div fxLayout="column" fxLayoutAlign="center center">
+            <div fxLayout="column" fxLayoutAlign="center flex-start">
               <p class="text-dark font-weight-bold">Valor neto total</p>
               <div class="clickable" (click)="copy(data.net_worth)">
-                <p class="text-muted font-weight-light">{{ data.net_worth | currency }}</p>
+                <p class="text-muted font-weight-light border-selector">{{ data.net_worth | currency }}</p>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center flex-start">
+              <p class="text-dark font-weight-bold">Bienes de este código</p>
+              <div class="clickable">
+                <p class="text-muted font-weight-light border-selector">{{ data.length }}</p>
               </div>
             </div>
           </div>

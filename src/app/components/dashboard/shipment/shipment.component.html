@@ -4,12 +4,12 @@
   <div fxFlex fxLayout="column" class="container" fxLayoutGap="20px">
     <!-- top row -->
     <div fxLayout="column" fxLayoutAlign.lt-md="space-between center" fxLayoutGap="15px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="flex-start center">
-      <mat-card class="w-100">
-        <div>
-          <h2 class="m-0 font-weight-light text-dark">Consulta por paquete</h2>
+      <mat-card class="w-100 pt-0 pb-3">
+        <div class="card-title shadow-sm mx-3 bg-grad mt-n-md">
+          <h2 class="m-0 font-weight-light text-white">Consulta por paquete</h2>
         </div>
-        <mat-divider inset></mat-divider>
-          <form #shipmentInput="ngForm" fxLayout="column" fxLayoutAlign="flex-start center" fxLayout.gt-sm="row wrap" fxLayoutAlign.gt-sm="center" fxLayoutGap="10px" class="mt-4 w-100 h-50"
+        <div class="container">
+          <form #shipmentInput="ngForm" fxLayout="column" fxLayoutAlign="flex-start center" fxLayout.gt-sm="row wrap" fxLayoutAlign.gt-sm="center" fxLayoutGap="10px" class="w-100 h-50"
             (ngSubmit)="shipmentInput.valid? onSubmit(shipmentInput) : false;"><!-- shipmentInput.valid? _requestshipmentData() : false; -->
             <div fxFlex="85">
               <mat-form-field class="w-100" appearance="outline" [hideRequiredMarker]="true">
@@ -24,19 +24,19 @@
               <button type="submit" mat-stroked-button class="form-btn text-dark w-100">Buscar</button>
             </div>
           </form>
+        </div>
       </mat-card>
     </div>
     <!-- bottom row -->
     <p *ngIf="!shipmentData" class="text-center text-muted">La información del embarque aparecera aquí abajo al consultarla</p>
     <div *ngIf="shipmentData" fxFlex="auto auto auto" fxLayout="column" fxLayoutGap="10px">
       <!-- space optimizer -->
-      <div fxFlex="auto auto auto" fxLayout="column" fxLayoutGap="10px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start" >
-        <mat-card class="w-100 h-100">
-          <div>
-            <h2 class="m-0 font-weight-light text-dark">Origen</h2>
+      <div class="mt-4" fxFlex="auto auto auto" fxLayout="column" fxLayoutGap="35px" fxLayoutGap.gt-sm="10px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start" >
+        <mat-card class="w-100 h-100 pt-0 pb-3">
+          <div class="card-title shadow-sm mx-3 bg-grad mt-n-md">
+            <h2 class="m-0 font-weight-light text-white">Origen</h2>
           </div>
-          <mat-divider inset></mat-divider>
-          <h3 class="text-dark pl-3 pt-3 pb-1 m-0 lead font-weight-bold">Datos fiscales de origen</h3>
+          <h3 class="text-dark pl-3 pb-1 m-0 lead font-weight-bold">Datos fiscales de origen</h3>
           <div class="container" fxLayout="column" fxLayoutGap="15px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start">
             <div fxLayout="column" class="text-wrap">
               <p class="m-0">RFC</p>
@@ -92,12 +92,11 @@
           </div>
         </mat-card>
 
-        <mat-card class="w-100 h-100">
-          <div>
-            <h2 class="m-0 font-weight-light text-dark">Destino</h2>
+        <mat-card class="w-100 h-100 pt-0 pb-3">
+          <div class="card-title shadow-sm mx-3 bg-grad mt-n-md">
+            <h2 class="m-0 font-weight-light text-white">Destino</h2>
           </div>
-          <mat-divider inset></mat-divider>
-          <h3 class="text-dark pl-3 pt-3 pb-1 m-0 lead font-weight-bold">Datos fiscales de destino</h3>
+          <h3 class="text-dark pl-3 pb-1 m-0 lead font-weight-bold">Datos fiscales de destino</h3>
           <div class="container" fxLayout="column" fxLayoutGap="15px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start">
             <div fxLayout="column" class="text-wrap">
               <p class="m-0">RFC</p>
@@ -154,14 +153,13 @@
         </mat-card>
       </div>
 
-      <mat-card class="w-100 h-100 mb-2">
-        <div class="w-100 px-2 py-0" fxLayout fxLayout.lt-md="column" fxLayoutAlign="space-between center">
-          <h2 class="m-0 font-weight-light">Datos de mercancía</h2>
+      <mat-card class="w-100 h-100 mt-4 mb-2 py-0">
+        <div class="card-title shadow-sm mx-3 bg-grad mt-n-md" fxLayout fxLayout.lt-md="column" fxLayoutAlign="space-between center">
+          <h2 class="m-0 font-weight-light text-white">Datos de mercancía</h2>
           <div fxLayout fxLayoutAlign="space-between center" fxLayoutGap="15px">
-            <h2 class="m-0 font-weight-light text-muted pr-2">Total de paquetes: <span class="text-dark font-weight-normal text-center"> {{totalItems}}</span></h2>
+            <h2 class="m-0 font-weight-light text-white pr-2">Total de paquetes: <span class="white font-weight-normal text-center"> {{totalItems}}</span></h2>
           </div>
         </div>
-        <mat-divider inset></mat-divider>
         <div class="table-container">
           <table mat-table matSort [dataSource]="dataSource" class="w-100">
             <ng-container matColumnDef="category">
@@ -204,8 +202,21 @@
   <!-- overlay -->
   <div *ngIf="isLoading" id="overlay">
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-      <circle cx="50" cy="50" r="32" stroke-width="8" stroke="#718ffe" stroke-dasharray="50.26548245743669 50.26548245743669" fill="none" stroke-linecap="round">
-        <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
+      <circle cx="84" cy="50" r="10" fill="#1600ff">
+          <animate attributeName="r" repeatCount="indefinite" dur="0.25s" calcMode="spline" keyTimes="0;1" values="10;0" keySplines="0 0.5 0.5 1" begin="0s"></animate>
+          <animate attributeName="fill" repeatCount="indefinite" dur="1s" calcMode="discrete" keyTimes="0;0.25;0.5;0.75;1" values="#1600ff;#7bf4ff;#3bbdf0;#5378ff;#1600ff" begin="0s"></animate>
+      </circle><circle cx="16" cy="50" r="10" fill="#1600ff">
+        <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+        <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+      </circle><circle cx="50" cy="50" r="10" fill="#5378ff">
+        <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.25s"></animate>
+        <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.25s"></animate>
+      </circle><circle cx="84" cy="50" r="10" fill="#3bbdf0">
+        <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.5s"></animate>
+        <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.5s"></animate>
+      </circle><circle cx="16" cy="50" r="10" fill="#7bf4ff">
+        <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.75s"></animate>
+        <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.75s"></animate>
       </circle>
     </svg>
     <!-- [ldio] generated by https://loading.io/ -->

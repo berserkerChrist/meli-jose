@@ -7,9 +7,9 @@ import { ShipmentComponent } from './shipment/shipment.component';
 
 const routes: Routes = [
   { path: '', pathMatch:'full', redirectTo: 'route' },
-  { path: 'route', component: RouteComponent},
-  { path: 'sort', component: OrganizerComponent },
-  { path: 'shipment', component: ShipmentComponent },
+  { path: 'route', component: RouteComponent, data: { title: 'Ruta' }},
+  { path: 'sort', component: OrganizerComponent, data: { title: 'Organizador' } },
+  { path: 'shipment', component: ShipmentComponent, data: { title: 'Paquetes' } },
 ];
 
 @NgModule({

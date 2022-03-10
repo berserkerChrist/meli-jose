@@ -3,12 +3,12 @@
   <div fxFlex fxLayout="column" class="container" fxLayoutGap="20px">
     <!-- top row -->
     <div fxLayout="column" fxLayoutAlign.lt-md="space-between center" fxLayoutGap="15px" fxLayoutAlign.gt-sm="flex-start">
-      <mat-card class="w-100">
-        <div>
-          <h2 class="m-0 font-weight-light text-dark">Consulta por ruta</h2>
+      <mat-card class="w-100 pt-0 pb-3">
+        <div class="card-title shadow-sm mx-3 bg-grad mt-n-md">
+          <h2 class="m-0 font-weight-light text-white">Consulta por ruta</h2>
         </div>
-        <mat-divider inset></mat-divider>
-          <form #routeInput="ngForm" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row wrap" fxLayoutAlign.gt-sm="center" fxLayoutGap="10px" class="mt-4 w-100"
+        <div class="container">
+          <form #routeInput="ngForm" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row wrap" fxLayoutAlign.gt-sm="center" fxLayoutGap="10px" class="w-100"
             (ngSubmit)="routeInput.valid? onSubmit(routeInput) : false;"><!-- routeInput.valid? _requestrouteData() : false; -->
               <div fxFlex="85">
                 <mat-form-field class="w-100 p-0 m-0" appearance="outline" [hideRequiredMarker]="true">
@@ -23,53 +23,71 @@
                 <button type="submit" mat-stroked-button class="form-btn text-dark w-100">Buscar</button>
               </div>
           </form>
+        </div>
       </mat-card>
-      <mat-card [hidden]="isHidden" class="w-100 mt-3">
-        <div class="w-100 px-2 py-0" fxLayout fxLayout.lt-md="column" fxLayoutAlign="space-between center">
-          <h3 class="m-0 font-weight-light">Paquetes de la ruta</h3>
-          <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between center" fxLayoutGap="15px">
-            <h3 class="m-0 font-weight-light text-muted pr-2">Total de paquetes: <span class="text-dark font-weight-normal text-center"> {{totalItems}}</span></h3>
-            <h3 class="m-0 font-weight-light text-muted">Costo: <span class="text-dark font-weight-normal text-center"> ${{shipCost}}.00</span></h3>
-            <div class="pb-1">
-              <button class="ml-1" mat-icon-button (click)="exporter.exportTable('xlsx', {fileName: routeInput.value.routeID })">
-                <mat-icon class="text-muted">file_download</mat-icon>
-              </button>
-              <button class="ml-1" mat-icon-button (click)="copy(copiedArray)">
-                <mat-icon class="text-muted">content_copy</mat-icon>
-              </button>
-            </div>
 
+      <div [hidden]="isHidden" fxLayout="column-reverse" fxLayout.gt-sm="row" fxLayoutGap="40px" fxLayoutGap.gt-sm="20px" class="mt-4">
+        <div fxFlex.gt-sm="80" fxFlex>
+          <mat-card [hidden]="isHidden" class="w-100 py-1">
+            <!-- <div class="w-100 px-2 py-0" fxLayout fxLayout.lt-md="column" fxLayoutAlign="space-between center">
+              <h3 class="m-0 font-weight-light">Paquetes de la ruta</h3>
+              <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between center" fxLayoutGap="15px">
+                <h3 class="m-0 font-weight-light text-muted pr-2">Total de paquetes: <span class="text-dark font-weight-normal text-center"> {{totalItems}}</span></h3>
+                <h3 class="m-0 font-weight-light text-muted">Costo: <span class="text-dark font-weight-normal text-center"> {{shipCost | currency}}</span></h3>
+              </div>
+            </div> -->
+            <div class="card-title shadow-sm mx-3 bg-grad mt-n-md" fxLayout fxLayout.lt-md="column" fxLayoutAlign="space-between center">
+              <h3 class="m-0 font-weight-light text-white">Paquetes de la ruta</h3>
+              <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between center" fxLayoutGap="15px">
+                <h3 class="m-0 font-weight-light text-white pr-2">Total de paquetes: <span class="text-white font-weight-normal text-center"> {{totalItems}}</span></h3>
+                <h3 class="m-0 font-weight-light text-white">Costo: <span class="text-white font-weight-normal text-center"> {{shipCost | currency}}</span></h3>
+              </div>
+            </div>
+            <div class="table-container">
+              <table mat-table matSort [dataSource]="dataSource" matTableExporter #exporter="matTableExporter" class="w-100">
+                <ng-container matColumnDef="entity_id">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>ID del paquete </th>
+                  <td mat-cell *matCellDef="let element" matRipple> {{element.entity_id}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)" class="clickable-row"></tr>
+              </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons ></mat-paginator>
+          </mat-card>
+        </div>
+        <div fxFlex.gt-sm="20" fxFlex fxLayout fxLayout.gt-sm="column" fxLayoutGap="15px" fxLayoutAlign="space-between center">
+          <div class="h-100 btn-grad w-100 shadow-sm clickable p-2" fxLayout="column" fxLayoutAlign="center center" (click)="copy(copiedArray)">
+            <h2 class="m-0 font-weight-light text-white text-center">Copiar ID's</h2>
+            <mat-divider inset></mat-divider>
+            <mat-icon class="icon-large">content_copy</mat-icon>
+          </div>
+          <div class="h-100 btn-grad w-100 shadow-sm clickable p-2" fxLayout="column" fxLayoutAlign="center center" (click)="exporter.exportTable('xlsx', {fileName: 'IDs - ' + routeInput.value.routeID })">
+            <h2 class="m-0 font-weight-light text-white text-center">Descargar ID's</h2>
+            <mat-icon class="icon-large">save_alt</mat-icon>
+          </div>
+          <div  class="h-100 btn-grad w-100 shadow-sm clickable p-2" fxLayout="column" fxLayoutAlign="center center" (click)="_exportData()">
+            <h2 class="m-0 font-weight-light text-white text-center">Descargar datos</h2>
+            <mat-icon class="icon-large" color="primary">save_as</mat-icon>
           </div>
         </div>
-        <div class="table-container">
-          <table mat-table matSort [dataSource]="dataSource" matTableExporter #exporter="matTableExporter" class="w-100">
-            <ng-container matColumnDef="entity_id">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>ID del paquete </th>
-              <td mat-cell *matCellDef="let element" matRipple> {{element.entity_id}} </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)" class="clickable-row"></tr>
-          </table>
-        </div>
-        <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons ></mat-paginator>
-      </mat-card>
+      </div>
     </div>
     <!-- bottom row -->
     <p *ngIf="!cargo" class="text-center text-muted">Selecciona una ruta para mostrar la información</p>
-    <div *ngIf="cargo" fxFlex="auto auto auto" fxLayout="column" fxLayoutGap="10px">
+    <div *ngIf="cargo" fxFlex="auto auto auto" fxLayout="column" fxLayoutGap="15px">
       <div fxLayout fxLayoutAlign="flex-start center">
         <h2 class="text-muted mt-1 font-weight-light mx-0 mb-0">Información del paquete #{{ selectedRoute }}</h2>
         <div class="clickable text-muted ml-3 pt-2" matRipple [matRippleUnbounded]="true" [matRippleRadius]=20 (click)="copy(selectedRoute)">
           <mat-icon class="mat-icon text-dark">content_copy</mat-icon>
         </div>
       </div>
-      <div fxFlex="auto auto auto" fxLayout="column" fxLayoutGap="10px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start" >
-        <mat-card class="w-100 h-100">
-          <div>
-            <h2 class="m-0 font-weight-light text-dark">Origen</h2>
+      <div class="mt-4" fxFlex="auto auto auto" fxLayout="column" fxLayoutGap="35px" fxLayoutGap.gt-sm="10px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start" >
+        <mat-card class="w-100 h-100 pt-0 pb-3">
+          <div class="card-title shadow-sm mx-3 bg-grad mt-n-md">
+            <h2 class="m-0 font-weight-light text-white">Origen</h2>
           </div>
-          <mat-divider inset></mat-divider>
-          <h3 class="text-dark pl-3 pt-3 pb-1 m-0 lead font-weight-bold">Datos fiscales de origen</h3>
+          <h3 class="text-dark pl-3 pb-1 m-0 lead font-weight-bold">Datos fiscales de origen</h3>
           <div class="container" fxLayout="column" fxLayoutGap="15px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start">
             <div fxLayout="column" class="text-wrap">
               <p class="m-0">RFC</p>
@@ -125,12 +143,11 @@
           </div>
         </mat-card>
 
-        <mat-card class="w-100 h-100">
-          <div>
-            <h2 class="m-0 font-weight-light text-dark">Destino</h2>
+        <mat-card class="w-100 h-100 pt-0 pb-3">
+          <div class="card-title shadow-sm mx-3 bg-grad mt-n-md">
+            <h2 class="m-0 font-weight-light text-white">Destino</h2>
           </div>
-          <mat-divider inset></mat-divider>
-          <h3 class="text-dark pl-3 pt-3 pb-1 m-0 lead font-weight-bold">Datos fiscales de destino</h3>
+          <h3 class="text-dark pl-3 pb-1 m-0 lead font-weight-bold">Datos fiscales de destino</h3>
           <div class="container" fxLayout="column" fxLayoutGap="15px" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between flex-start">
             <div fxLayout="column" class="text-wrap">
               <p class="m-0">RFC</p>
@@ -187,11 +204,10 @@
         </mat-card>
       </div>
 
-      <mat-card class="w-100 mb-2">
-        <div>
-          <h2 class="m-0 font-weight-light text-dark">Datos de mercancía</h2>
+      <mat-card class="w-100 mt-4 mb-2 py-0">
+        <div class="card-title shadow-sm mx-3 bg-grad mt-n-md">
+          <h2 class="m-0 font-weight-light text-white">Datos de la mercancía</h2>
         </div>
-        <mat-divider inset></mat-divider>
         <div class="cargo-container">
           <table mat-table matSort [dataSource]="cargoDataSource" class="w-100">
             <ng-container matColumnDef="category">
@@ -234,10 +250,60 @@
   <!-- overlay -->
   <div *ngIf="isLoading" id="overlay">
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-      <circle cx="50" cy="50" r="32" stroke-width="8" stroke="#718ffe" stroke-dasharray="50.26548245743669 50.26548245743669" fill="none" stroke-linecap="round">
-        <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
+      <circle cx="84" cy="50" r="10" fill="#1600ff">
+          <animate attributeName="r" repeatCount="indefinite" dur="0.25s" calcMode="spline" keyTimes="0;1" values="10;0" keySplines="0 0.5 0.5 1" begin="0s"></animate>
+          <animate attributeName="fill" repeatCount="indefinite" dur="1s" calcMode="discrete" keyTimes="0;0.25;0.5;0.75;1" values="#1600ff;#7bf4ff;#3bbdf0;#5378ff;#1600ff" begin="0s"></animate>
+      </circle><circle cx="16" cy="50" r="10" fill="#1600ff">
+        <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+        <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+      </circle><circle cx="50" cy="50" r="10" fill="#5378ff">
+        <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.25s"></animate>
+        <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.25s"></animate>
+      </circle><circle cx="84" cy="50" r="10" fill="#3bbdf0">
+        <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.5s"></animate>
+        <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.5s"></animate>
+      </circle><circle cx="16" cy="50" r="10" fill="#7bf4ff">
+        <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.75s"></animate>
+        <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.75s"></animate>
       </circle>
     </svg>
   </div>
-</section>
 
+<!--
+  <table [hidden]="isHidden" mat-table [dataSource]="hiddenDataSource" class="w-100">
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef> Categoría </th>
+      <td mat-cell *matCellDef="let element"> <div  class="clickable" matRipple >{{element.category}}</div> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Descripción </th>
+      <td mat-cell *matCellDef="let element" class="text-wrap"><div class="clickable" matRipple>{{element.description}}</div> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="unit_code">
+      <th mat-header-cell *matHeaderCellDef>Clave de unidad </th>
+      <td mat-cell *matCellDef="let element"> <div class="clickable" matRipple>{{element.unit_code}}</div></td>
+    </ng-container>
+
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+      <td mat-cell *matCellDef="let element"> <div class="clickable" matRipple>{{element.quantity}}</div></td>
+    </ng-container>
+
+    <ng-container matColumnDef="dimensions">
+      <th mat-header-cell *matHeaderCellDef> Peso </th>
+      <td mat-cell *matCellDef="let element">
+         <p class="p-0 m-0" *ngIf="element.dimensions.height">Alto: {{element.dimensions.height}}cm. </p>
+        <p class="p-0 m-0" *ngIf="element.dimensions.lenght">Largo: {{element.dimensions.lenght}}cm.</p>
+        <p class="p-0 m-0" *ngIf="element.dimensions.width">Ancho: {{element.dimensions.width}}cm.</p>
+        <p class="p-0 m-0" *ngIf="element.dimensions.weight">Peso: {{element.dimensions.weight.toFixed(2)}}g.</p>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="hiddenColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: hiddenColumns;"></tr>
+  </table>
+
+ -->
+</section>

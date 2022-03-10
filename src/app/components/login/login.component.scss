@@ -2,12 +2,12 @@
 
 @include md-and-down{
   .w-25-custom{
-    width: auto !important;
+    width: 300px !important;
   }
 }
 
 .w-25-custom{
-  width: 25%;
+  width: 300px;
 }
 
 .welcome-backdrop{
@@ -19,8 +19,8 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-image: url('/assets/img/pexels-photoscom-93398_1_50.jpg');
-  filter: blur(4px);
-  -webkit-filter: blur(3px);
+  //filter: blur(4px);
+  //-webkit-filter: blur(3px);
   background-attachment: fixed;
   position: absolute;
 }
@@ -30,8 +30,8 @@
 }
 
 .avatar {
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   //border-radius: 50%;
   //background-color: lightgrey;
 }

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -49,7 +49,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
   ],
-  providers: [AngularFireAuthGuard, RouteService, ShipmentService],
+  providers: [AngularFireAuthGuard, RouteService, ShipmentService, Title],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

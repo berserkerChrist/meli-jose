@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Title } from '@angular/platform-browser';
 import { ClipboardService } from 'ngx-clipboard';
 import { ShipmentResponse } from 'src/app/interfaces/shipment-model';
 import { NotifierService } from 'src/app/services/notifier.service';
@@ -28,6 +29,7 @@ export interface ResponseData {
 
 export class ShipmentComponent implements OnInit{
 
+
   shipmentData!: ShipmentResponse | null;
   tableData!: ResponseData[];
   displayedColumns: string[] = ['category', 'description', 'unit_code', 'quantity', 'dimensions'];
@@ -42,7 +44,7 @@ export class ShipmentComponent implements OnInit{
   shipCost!: string | null;
   totalItems!: string | null;
 
-  constructor(private shipService: ShipmentService, private notifications: NotifierService, private clipboard: ClipboardService) {
+  constructor(private shipService: ShipmentService, private notifications: NotifierService, private clipboard: ClipboardService, private titleService: Title) {
     let token = localStorage.getItem('auth');
     this.authTokenKey = token!;
   }

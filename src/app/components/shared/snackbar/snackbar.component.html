@@ -1,8 +1,11 @@
-<div fxLayout fxLayoutAlign="space-between center">
+<div fxLayout fxLayoutAlign="space-between center p-0 m-0">
   <div class="w-100">
     <span class="text-center">{{data.message}}</span>
   </div>
-  <button mat-icon-button (click)="snackRef.dismiss()">
+  <!-- <button mat-icon-button >
     <mat-icon>close</mat-icon>
-  </button>
+  </button> -->
+  <div (click)="snackRef.dismiss()" class="pl-2">
+    <img src="../../../../assets/img/211652_close_icon.svg" width="16px" alt="">
+  </div>
 </div>

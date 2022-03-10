@@ -36,15 +36,46 @@ $MELI-Jose-theme: mat.define-light-theme((
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; }
 
 
 .error.mat-snack-bar-container{
-  background-color: red;
+  //background-color: red;
+  background-color: #f91313;
+  background-image: linear-gradient(90deg, #f91313 0%, #ff3486 100%);
   color: white;
 }
 
 .success.mat-snack-bar-container{
-  background-color: #28a745;
+  //background-image: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
+  //background-color: #00e56a;
+  //background-image: linear-gradient(90deg, #00e56a 0%, #00fca0 100%);
+  background-color: #04d64f;
+  background-image: linear-gradient(90deg, #04d64f 0%, #05e394 100%);
   color: white;
+}
+
+.card-title{
+  border-radius: 5px;
+  //margin-top: -2.5rem !important;
+  //position: relative;
+  padding: 10px;
+}
+
+.bg-grad{
+  //background-image: linear-gradient(to right, #2a00e9 0%, #0095ff  51%, #2a00e9  100%);
+  //background-color: #3b11ff;
+  //background-image: linear-gradient(135deg, #3b11ff 0%, #3896ff 100%);
+  background-color: #0048e9;
+  background-image: linear-gradient(160deg, #0048e9 0%, #007cff 100%);
+}
+
+.mt-n-sm {
+  margin-top: -1rem !important;
+}
+.mt-n-md {
+  margin-top: -1.5rem !important;
+}
+.mt-n-lg {
+  margin-top: -2.5rem !important;
 }

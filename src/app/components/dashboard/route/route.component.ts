@@ -8,6 +8,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ShipmentResponse } from 'src/app/interfaces/shipment-model';
 import { NotifierService } from 'src/app/services/notifier.service';
 import { ClipboardService } from 'ngx-clipboard';
+import * as XLSX from 'xlsx'
+import { Title } from '@angular/platform-browser';
 
 export interface DataTable {
   entity_id: string,
@@ -49,6 +51,12 @@ export class RouteComponent implements OnInit {
   cargoDataSource = new MatTableDataSource<ResponseData>(this.itemTable);
   /* second table */
 
+  /* hiddenTable */
+  hiddenItemTable!: ResponseData[];
+  hiddenDataSource = new MatTableDataSource<ResponseData>(this.hiddenItemTable)
+  hiddenColumns: string[] = ['category', 'description', 'unit_code', 'quantity', 'dimensions']
+  /* hiddenTable */
+
   isLoading = false;
   isHidden = true;
   cargoIsHidden = true;
@@ -57,8 +65,10 @@ export class RouteComponent implements OnInit {
   shipCost!: string | null;
   totalItems!: number | null;
   copiedArray!: string;
+  allDataArray: Array<any> = []
+  fileName!: string;
 
-  constructor(private routeService: RouteService, private notifications: NotifierService, private clipboard: ClipboardService) {
+  constructor(private routeService: RouteService, private notifications: NotifierService, private clipboard: ClipboardService, private titleService: Title) {
     let token = localStorage.getItem('auth');
     this.authTokenKey = token!;
   }
@@ -74,10 +84,12 @@ export class RouteComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
   onSubmit(form: NgForm){
     this.cargo = null
     this.isLoading = true;
     this.isHidden = true
+    this.fileName = form.value.routeID;
     this.routeService._requestRouteData({
       id: form.value.routeID,
       authToken: this.authTokenKey
@@ -91,8 +103,9 @@ export class RouteComponent implements OnInit {
       let filteredArray = response.shipments.map(({url, ...rest})=> {
         return rest
       })
-      let array  = filteredArray.map((obj) => obj.entity_id)
+      let array = filteredArray.map((obj) => obj.entity_id)
       this.copiedArray = array.join(", ")
+      this._prepareAllData(this.routeData);
     },
     error: (error) => {
       this.isLoading = false;
@@ -107,6 +120,30 @@ export class RouteComponent implements OnInit {
       }
     }
   })
+  }
+
+  _prepareAllData(array: RouteModel){
+    array.shipments.forEach(item => {
+      this.routeService._requestByRoute({
+        url: item.url,
+        authToken: this.authTokenKey
+      }).subscribe({next: (resp) => {
+          resp.package.items.forEach((item => {
+            //;
+            let mapped = { Categoria: item.category, Descripcion: item.description, Cantidad: item.quantity, Clave: item.unit_code, Medida: 'KG', Peso: (parseInt(item.dimensions.weight)/1000) }
+            this.allDataArray.push(mapped)
+          }))
+        },
+        error: (err => console.log(err))})
+      })
+      //console.log(this.allDataArray)
+  }
+
+  _exportData(){
+    const sheet = XLSX.utils.json_to_sheet(this.allDataArray)
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, sheet, 'Sheet1');
+    XLSX.writeFile(workbook, `Datos - ${this.fileName}.xlsx`);
   }
 
   onRowClick(routeMeta: DataTable){
@@ -130,5 +167,7 @@ export class RouteComponent implements OnInit {
     this.clipboard.copyFromContent(copiedValue);
     this.notifications.showNotification(`Copiado al portapapeles`, 'Cerrar', 'success');
   }
+
+
 
 }

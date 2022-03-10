@@ -1,10 +1,10 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';import { ClipboardService } from 'ngx-clipboard';
-import { user } from 'rxfire/auth';
-import { from, groupBy, mergeMap, zip, of, toArray } from 'rxjs';
-;
+import { MatTableDataSource } from '@angular/material/table';import { Title } from '@angular/platform-browser';
+import { ClipboardService } from 'ngx-clipboard';
+import { Observable, map, shareReplay } from 'rxjs';
 import { FileModel } from 'src/app/interfaces/file-model';
 import { NotifierService } from 'src/app/services/notifier.service';
 import * as XLSX from 'xlsx'
@@ -42,8 +42,17 @@ export class OrganizerComponent implements OnInit {
   isVisible = false;
   entryFile!: FileModel[];
   displayedColumns:string[] = ['goods', 'desc', 'qty', 'unit_code', 'weight', 'net_worth']
+  order!: string;
+  delivery!: string;
+  recipientName!: string;
+  totalCodes!: number;
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  .pipe(
+    map(result => result.matches),
+    shareReplay()
+  );
 
-  constructor(private clipboard: ClipboardService, private notifications: NotifierService) {  }
+  constructor(private breakpointObserver: BreakpointObserver, private clipboard: ClipboardService, private notifications: NotifierService, private titleService: Title) {  }
 
   ngOnInit(): void {
   }
@@ -65,6 +74,11 @@ export class OrganizerComponent implements OnInit {
         return { goods: a.BienesTransp, desc:a.Descripción, qty: a.Cantidad, unit_code: a.ClaveUnidad, weight: a['Peso en KG'], net_worth: a['Valor neto']}
       })
       this._sortData(tableArray)//this.tableDataSource.data = tableArray;
+      this.recipientName = this.entryFile[0]['Razón soc. Destino']
+      this.delivery = this.entryFile[0].Entrega
+      this.order = this.entryFile[0].Pedido
+      this.totalCodes = tableArray.length
+      console.log(tableArray.length)
     }
 	}
 

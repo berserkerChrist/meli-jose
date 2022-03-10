@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { SnackbarComponent } from "../components/shared/snackbar/snackbar.component";
 
 @Injectable({
@@ -9,6 +9,9 @@ export class NotifierService {
 
   constructor(private snack: MatSnackBar){}
 
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
   showNotification(message: string, actionMsg: string, panelClass:string){
     this.snack.openFromComponent(SnackbarComponent, {
       data: {
@@ -16,7 +19,9 @@ export class NotifierService {
         btnText: actionMsg
       },
       duration: 5000,
-      panelClass: panelClass
+      panelClass: panelClass,
+      verticalPosition: this.verticalPosition,
+      horizontalPosition: this.horizontalPosition
     })
   }
 
