@@ -19,7 +19,7 @@
           <input matInput type="password" ngModel name="password" required #passInput="ngModel" password>
           <mat-error *ngIf="passInput.hasError('required')">Ingresa una contraseña</mat-error>
         </mat-form-field>
-        <button (click)="_onLogin(loginForm)" mat-stroked-button class="w-50">Acceder</button>
+        <button mat-stroked-button class="w-50">Acceder</button>
       </form>
     </div>
 

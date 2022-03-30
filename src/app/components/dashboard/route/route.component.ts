@@ -9,7 +9,6 @@ import { ShipmentResponse } from 'src/app/interfaces/shipment-model';
 import { NotifierService } from 'src/app/services/notifier.service';
 import { ClipboardService } from 'ngx-clipboard';
 import * as XLSX from 'xlsx'
-import { Title } from '@angular/platform-browser';
 
 export interface DataTable {
   entity_id: string,
@@ -68,7 +67,7 @@ export class RouteComponent implements OnInit {
   allDataArray: Array<any> = []
   fileName!: string;
 
-  constructor(private routeService: RouteService, private notifications: NotifierService, private clipboard: ClipboardService, private titleService: Title) {
+  constructor(private routeService: RouteService, private notifications: NotifierService, private clipboard: ClipboardService) {
     let token = localStorage.getItem('auth');
     this.authTokenKey = token!;
   }
