@@ -2,11 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
-import { redirectLoggedInTo, redirectUnauthorizedTo, canActivate } from '@angular/fire/compat/auth-guard';
-
+import { redirectUnauthorizedTo, canActivate } from '@angular/fire/compat/auth-guard';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['']);
-const redirectLoggedInToWorkspace = () => redirectLoggedInTo(['dashboard']);
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
